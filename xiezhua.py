@@ -58,5 +58,3 @@ def xiezhua(xiezhua_id ,status ,source ,type):
         except urllib2.HTTPError:
             return 0,0
 
-if __name__ == '__main__':
-    xiezhua(xiezhua_id ,status ,source ,type)

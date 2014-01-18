@@ -8,6 +8,7 @@ import MySQLdb
 from lxml import etree
 from xiezhua import xiezhua
 import hanzi
+import photo
 
 db = web.database(dbn='mysql',user='root',pw='password',db='info')
 render = web.template.render('templates/')
@@ -81,6 +82,8 @@ class index:
 
         elif msgType == 'image' :
             picurl   = xml.find("PicUrl").text
+            msgid   = xml.find("MediaId").text
+            photo.save(msgid,picurl)
             id       = db.select('info' ,what="id"      ,where="weixin_id=$fromUser",vars=locals())
             if len(id) == 0:
                 return render.weixin(fromUser,toUser,int(time.time()),hanzi.hello)
@@ -91,8 +94,6 @@ class index:
                 code,xiezhua_xml = xiezhua(xiezhua_id[0].xiezhua_id,'''[img]'''+picurl+'''[/img]''',sendfrom[0].sendfrom,'talk')
                 if code == 200:
                     return render.weixin(fromUser,toUser,int(time.time()),hanzi.send_ok)
-#                else:
-#                    return render.weixin(fromUser,toUser,int(time.time()),picurl)
 
 
 
