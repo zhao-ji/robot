@@ -9,6 +9,7 @@ from lxml import etree
 from xiezhua import xiezhua
 import hanzi
 import photo
+import timeline
 
 db = web.database(dbn='mysql',user='root',pw='password',db='info')
 render = web.template.render('templates/')
@@ -72,6 +73,15 @@ class index:
                         return render.weixin(fromUser,toUser,int(time.time()),hanzi.sendfrom_fail)
                         code,xiezhua_xml = xiezhua(xiezhua_id[0].xiezhua_id,hanzi.sendfrom_fail,sendfrom[0].sendfrom.encode('raw_unicode_escape'),'talk')
 
+                elif content==hanzi.timeline:
+                    timeline = db.select('info',what="timeline",where="weixin_id=$fromUser" ,vars=locals())
+                    timeline,string = timeline.get_string(xiezhua_id,timeline)
+                    if timeline == 0:
+                        return render.weixin(fromUser,toUser,int(time.time()),hanzi.nomore)
+                    else:
+                        db.update('info' ,where="weixin_id=$fromUser" ,timeline=timeline ,vars=locals())
+                        return render.weixin(fromUser,toUser,int(time.time()),string)
+                    
                 else:
                     code,xiezhua_xml = xiezhua(xiezhua_id[0].xiezhua_id,content,sendfrom[0].sendfrom,'talk')
                     if code == 200:
