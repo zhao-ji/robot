@@ -9,7 +9,7 @@ from lxml import etree
 from xiezhua import xiezhua
 import hanzi
 import photo
-import timeline
+#import timeline
 
 db = web.database(dbn='mysql',user='root',pw='password',db='info')
 render = web.template.render('templates/')

@@ -8,7 +8,6 @@ from poster.encode import multipart_encode
 from poster.streaminghttp import register_openers
 
 def xiezhua(xiezhua_id ,status ,source ,type):
-    register_openers()
     reload(sys)
     sys.setdefaultencoding('utf-8')
     if type == 'talk':        
@@ -29,14 +28,15 @@ def xiezhua(xiezhua_id ,status ,source ,type):
             if d == 200:
                 c=f.read()
                 f.close()
-                print d,c
+                return d,c
             else:
                 f.close()
-                print d,'fail'
+                return d,'fail'
         except urllib2.HTTPError:
-            print 0,0
+            return 0,0
 
     if type == 'photo':
+        register_openers()
         source = source.decode('utf-8').encode('gbk')
         type   =   type.decode('utf-8').encode('gbk')
         status = open('picture/1.jpg','rb')
@@ -64,4 +64,4 @@ def xiezhua(xiezhua_id ,status ,source ,type):
             print 0,0
 
 if __name__ == '__main__':
-    xiezhua('shijunzi@myopera.com:sxjzz7wIyel' ,'status' ,'python' ,'photo')
+    xiezhua('shijunzi@myopera.com:sxjzz7wIyel' ,'status' ,'python' ,'talk')
