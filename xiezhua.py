@@ -10,7 +10,7 @@ from poster.streaminghttp import register_openers
 def xiezhua(xiezhua_id ,status ,source ,type):
     reload(sys)
     sys.setdefaultencoding('utf-8')
-    if type == 'talk':        
+    if type == 'talk':
         status = status.decode('utf-8').encode('gbk')
         source = source.decode('utf-8').encode('gbk')
         type   =   type.decode('utf-8').encode('gbk')
@@ -20,7 +20,7 @@ def xiezhua(xiezhua_id ,status ,source ,type):
         headers   = 'Basic' + ' ' + xiezhua_id.encode('base64')[:-1]
         headers  = {'Authorization':headers}
         url = 'http://weilairiji.com/api/statuses/update.xml'
-        
+
         req = urllib2.Request(url,data=data,headers=headers)
         try:
             f=urllib2.urlopen(req)
@@ -42,12 +42,12 @@ def xiezhua(xiezhua_id ,status ,source ,type):
         status = open('picture/1.jpg','rb')
         values = {'status':status,'source':source,'status_type':type}
         data, headers = multipart_encode(values)
-        
+
         Authorization = 'Basic' + ' ' + xiezhua_id.encode('base64')[:-1]
         headers.update({'Authorization':Authorization})
-        
+
         url    = 'http://weilairiji.com/api/statuses/update.xml'
-        
+
         req    = urllib2.Request(url,data=data,headers=headers)
         try:
             f=urllib2.urlopen(req)
